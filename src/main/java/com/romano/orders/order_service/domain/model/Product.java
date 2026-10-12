@@ -1,0 +1,54 @@
+package com.romano.orders.order_service.domain.model;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+public class Product {
+    private final UUID id;
+    private final String name;
+    private BigDecimal price;
+    private boolean active;
+
+    public Product(String name, BigDecimal price) {
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("O nome do produto é obrigatório.");
+        }
+
+        this.id = UUID.randomUUID();
+        this.name = name;
+        changePrice(price);
+        this.active = true;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void changePrice(BigDecimal newPrice) {
+        if (newPrice == null || newPrice.signum() < 0) {
+            throw new IllegalArgumentException("O preço não pode ser negativo.");
+        }
+
+        this.price = newPrice;
+    }
+
+    public void deactivate() {
+        this.active = false;
+    }
+
+    public void activate() {
+        this.active = true;
+    }
+}
